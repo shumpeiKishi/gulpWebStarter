@@ -3,6 +3,18 @@ var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var scsslint = require('gulp-scss-lint');
 var eslint = require('gulp-eslint');
+var imagemin = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');
+
+gulp.task('imagemin', function () {
+    return gulp.src('./images/*')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()]
+        }))
+        .pipe(gulp.dest('./images'));
+});
 
 gulp.task('sass', function () {
   gulp.src('scss/**/*.scss')
