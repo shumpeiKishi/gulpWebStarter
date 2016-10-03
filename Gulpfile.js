@@ -5,6 +5,19 @@ var scsslint = require('gulp-scss-lint');
 var eslint = require('gulp-eslint');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
+var phpcs = require('gulp-phpcs');
+
+gulp.task('phpcs', function () {
+    return gulp.src(['./**/*.php'])
+        // Validate files using PHP Code Sniffer
+        .pipe(phpcs({
+            bin: 'phpcs',
+            standard: 'Drupal',
+            warningSeverity: 0
+        }))
+        // Log all problems that was found
+        .pipe(phpcs.reporter('log'));
+});
 
 gulp.task('imagemin', function () {
     return gulp.src('./images/*')
@@ -24,7 +37,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('scsslint', function () {
-  gulp.src('scss/custom/*.scss')
+  gulp.src('scss/custom/**/*.scss')
     .pipe(scsslint());
 });
 
@@ -47,5 +60,8 @@ gulp.task('eslint', () => {
 
 gulp.task('default', function () {
   gulp.watch('scss/**/*.scss', ['sass']);
+  gulp.watch('scss/custom/**/*.scss', ['scsslint']);
   gulp.watch('js/*.js', ['eslint']);
+  gulp.watch('./**/*.php', ['phpcs']);
+
 });
