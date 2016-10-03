@@ -8,7 +8,7 @@ var pngquant = require('imagemin-pngquant');
 var phpcs = require('gulp-phpcs');
 
 gulp.task('phpcs', function () {
-    return gulp.src(['./**/*.php'])
+    return gulp.src(['./**/*.php', './**/*.theme', './**/*.module'])
         // Validate files using PHP Code Sniffer
         .pipe(phpcs({
             standard: 'Drupal',
@@ -29,7 +29,7 @@ gulp.task('imagemin', function () {
 });
 
 gulp.task('sass', function () {
-  gulp.src('scss/**/*.scss')
+  gulp.src('sass/**/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer('last 2 version'))
     .pipe(gulp.dest('./css/'));
@@ -58,9 +58,9 @@ gulp.task('eslint', () => {
 });
 
 gulp.task('default', function () {
-  gulp.watch('scss/**/*.scss', ['sass']);
-  gulp.watch('scss/custom/**/*.scss', ['scsslint']);
+  gulp.watch('sass/**/*.scss', ['sass']);
+  gulp.watch('sass/**/*.scss', ['scsslint']);
   gulp.watch('js/*.js', ['eslint']);
-  gulp.watch('./**/*.php', ['phpcs']);
+  gulp.watch(['./**/*.php', './**/*.theme', './**/*.module'], ['phpcs']);
 
 });
