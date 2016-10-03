@@ -11,7 +11,6 @@ gulp.task('phpcs', function () {
     return gulp.src(['./**/*.php'])
         // Validate files using PHP Code Sniffer
         .pipe(phpcs({
-            bin: 'phpcs',
             standard: 'Drupal',
             warningSeverity: 0
         }))
